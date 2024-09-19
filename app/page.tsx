@@ -1,5 +1,13 @@
-import { VideoDownloaderWebsite } from "@/components/video-downloader-website"
+"use client"
+import Layout from "@/components/Layout";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 export default function Page() {
-  return <VideoDownloaderWebsite />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Layout />
+    </QueryClientProvider>
+  )
 }
