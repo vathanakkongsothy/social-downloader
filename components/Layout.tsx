@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Download, Loader2} from "lucide-react"
+import { Download, Loader2 } from "lucide-react"
 import AuthDialog from './AuthDialog'
 import { useMutation } from '@tanstack/react-query'
 import { downloadVideo } from './fetch'
@@ -67,7 +67,7 @@ export default function Layout() {
 
       <main>
         <section className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-5xl font-bold text-white mb-6">Download Videos from Any Platform</h1>
+          <h1 className="font-bold text-white mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">Download Videos Any Platform</h1>
           <p className="text-xl text-white mb-8">Fast, easy, and free video downloads from your favorite social media sites.</p>
           <a href="#download" className="bg-white text-purple-600 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-200 transition-colors">
             Start Downloading
