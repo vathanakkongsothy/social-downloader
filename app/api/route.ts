@@ -42,7 +42,7 @@ export async function GET(request: Request) {
 
         return new NextResponse(readableStream, {
             headers: {
-                'Content-Disposition': `attachment; filename="video_${video.quality}.mp4"`,
+                'Content-Disposition': `inline; filename="video_${video.quality}.mp4"`,
                 'Content-Type': 'video/mp4',
             },
         });
