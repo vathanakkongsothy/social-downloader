@@ -38,9 +38,9 @@ export default function Layout() {
 
   const handleAuth = () => {
     // Simulate authentication process
-    setIsLoading(true);
+    // setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false);
+      // setIsLoading(false);
       setIsAuthenticated(true);
       setShowAuthModal(false);
       mutation.mutate({ url, platform });
