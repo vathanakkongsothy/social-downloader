@@ -13,7 +13,6 @@ import { downloadVideo } from './fetch'
 export default function Layout() {
   const [url, setUrl] = useState('')
   const [platform, setPlatform] = useState('tiktok')
-  const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -162,8 +161,8 @@ export default function Layout() {
                     </SelectContent>
                   </Select>
                 </div>
-                <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={isLoading}>
-                  {isLoading ? (
+                <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={mutation.isPending}>
+                  {mutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Processing
