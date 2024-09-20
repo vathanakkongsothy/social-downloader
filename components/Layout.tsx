@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Download, Loader2 } from "lucide-react"
+import { CheckCircle, Download, Loader2 } from "lucide-react"
 import AuthDialog from './AuthDialog'
 import { useMutation } from '@tanstack/react-query'
 import { downloadVideo } from './fetch'
@@ -16,9 +16,10 @@ export default function Layout() {
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [progress, setProgress] = useState(0);
 
   const mutation = useMutation<string, Error, { url: string; platform: string }>({
-    mutationFn: downloadVideo,
+    mutationFn: ({ url, platform }) => downloadVideo({ url, platform }, setProgress),
     onSuccess: (message: string) => {
       setResult({ success: true, message });
     },
@@ -165,7 +166,12 @@ export default function Layout() {
                   {mutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing
+                      Downloading {progress.toFixed(2)}%
+                    </>
+                  ) : result?.success ? (
+                    <>
+                      <CheckCircle className="mr-2 h-4 w-4" />
+                      Download Complete
                     </>
                   ) : (
                     <>
