@@ -17,8 +17,8 @@ async function tiktokDownloader(url: string): Promise<Media> {
 
 export async function GET(request: Request) {
     try {
-        const url = new URL(request.url);
-        const videoUrl = url.searchParams.get('videoUrl');
+        const { searchParams } = new URL(request.url);
+        const videoUrl = searchParams.get('videoUrl');
 
         if (!videoUrl) {
             return new NextResponse('Please provide a video URL', {
