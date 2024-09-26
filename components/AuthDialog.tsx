@@ -56,7 +56,7 @@ const AuthDialog = ({ open, onOpenChange, handleAuth }: AuthDialogProps) => {
                         </form>
                     </TabsContent>
                     <TabsContent value="signIn">
-                        <form onSubmit={(e) => { e.preventDefault(); handleAuth(); }} className="space-y-4">
+                        <form onSubmit={(e) => handleSubmit(e, 'signUp')} className="space-y-4">
                             <Input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
                             <Input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
                             <Button type="submit" className="w-full">Sign In</Button>
