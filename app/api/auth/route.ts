@@ -2,6 +2,15 @@ import { NextResponse } from "next/server";
 import { signUp } from "./signUp";
 import { signIn } from "./signIn";
 
+export async function GET() {
+    return new NextResponse('GET method not supported for this endpoint', {
+        status: 405,
+        headers: {
+            'Allow': 'POST',
+        },
+    });
+}
+
 export async function POST(request: Request) {
     try {
         const { email, password, action } = await request.json();
