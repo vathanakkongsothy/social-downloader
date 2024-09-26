@@ -4,12 +4,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-
+import { setCookie } from 'cookies-next';
 
 type AuthDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    handleAuth: () => void;
+    handleAuth: (token : string) => void;
 }
 
 const AuthDialog = ({ open, onOpenChange, handleAuth }: AuthDialogProps) => {
@@ -28,7 +28,9 @@ const AuthDialog = ({ open, onOpenChange, handleAuth }: AuthDialogProps) => {
         });
 
         if (response.ok) {
-            handleAuth();
+            const data = await response.json();
+            setCookie('sessionToken', data.token, { maxAge: 60 * 60 * 24 });      
+            handleAuth(data.token);
         } else {
             console.error('Authentication failed');
         }
@@ -56,7 +58,7 @@ const AuthDialog = ({ open, onOpenChange, handleAuth }: AuthDialogProps) => {
                         </form>
                     </TabsContent>
                     <TabsContent value="signIn">
-                        <form onSubmit={(e) => handleSubmit(e, 'signUp')} className="space-y-4">
+                        <form onSubmit={(e) => handleSubmit(e, 'signIn')} className="space-y-4">
                             <Input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
                             <Input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
                             <Button type="submit" className="w-full">Sign In</Button>

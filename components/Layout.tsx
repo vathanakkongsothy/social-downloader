@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -8,7 +8,7 @@ import { CheckCircle, Download, Loader2 } from "lucide-react"
 import AuthDialog from './AuthDialog'
 import { useMutation } from '@tanstack/react-query'
 import { downloadVideo } from './fetch'
-
+import { setCookie, getCookie } from 'cookies-next';
 
 export default function Layout() {
   const [url, setUrl] = useState('')
@@ -37,16 +37,20 @@ export default function Layout() {
     mutation.mutate({ url, platform });
   };
 
-  const handleAuth = () => {
-    // Simulate authentication process
-    // setIsLoading(true);
-    setTimeout(() => {
-      // setIsLoading(false);
-      setIsAuthenticated(true);
-      setShowAuthModal(false);
-      mutation.mutate({ url, platform });
-    }, 1500);
+  const handleAuth = async (token: string) => {
+    setCookie('sessionToken', token, { maxAge: 60 * 60 * 24 }); // Set cookie for 1 day
+    setIsAuthenticated(true);
+    setShowAuthModal(false);
+    mutation.mutate({ url, platform });
   };
+
+  useEffect(() => {
+    const token = getCookie('sessionToken');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
       <header className="container mx-auto px-4 py-6">
@@ -58,8 +62,7 @@ export default function Layout() {
             {isAuthenticated ? (
               <span className="text-green-200">Signed In</span>
             ) : (
-              // <Button variant="outline" onClick={() => setShowAuthModal(true)}>Sign In</Button>
-              <></>
+              <Button variant="outline" onClick={() => setShowAuthModal(true)}>Sign In</Button>
             )}
           </div>
         </nav>
