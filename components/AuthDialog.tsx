@@ -46,7 +46,7 @@ const AuthDialog = ({ open, onOpenChange, handleAuth }: AuthDialogProps) => {
                     </DialogDescription>
                 </DialogHeader>
                 <Tabs defaultValue="signUp" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 bg-slate-200">
+                    <TabsList className="grid w-full grid-cols-2 bg-white">
                         <TabsTrigger className="bg-slate-200 data-[state=active]:bg-white" value="signUp">Sign Up</TabsTrigger>
                         <TabsTrigger className="bg-slate-200 data-[state=active]:bg-white" value="signIn">Sign In</TabsTrigger>
                     </TabsList>

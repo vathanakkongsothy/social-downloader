@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { CheckCircle, Download, Loader2 } from "lucide-react"
+import { CheckCircle, Download, Loader2, Bell } from "lucide-react"
 import AuthDialog from './AuthDialog'
 import { useMutation } from '@tanstack/react-query'
 import { downloadVideo } from './fetch'
 import { setCookie, getCookie } from 'cookies-next';
+import ReleaseNotesDialog from './ReleaseNotesDialog'
 
 export default function Layout() {
   const [url, setUrl] = useState('')
@@ -17,6 +18,7 @@ export default function Layout() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [progress, setProgress] = useState(0);
+  const [showReleaseNotes, setShowReleaseNotes] = useState(false);
 
   const mutation = useMutation<string, Error, { url: string; platform: string }>({
     mutationFn: ({ url, platform }) => downloadVideo({ url, platform }, setProgress),
@@ -59,10 +61,20 @@ export default function Layout() {
           <div className="space-x-4">
             <a href="#features" className="text-white hover:text-gray-200 transition-colors">Features</a>
             <a href="#download" className="text-white hover:text-gray-200 transition-colors">Download</a>
+            <Button variant="secondary" className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+              onClick={() => setShowReleaseNotes(true)}>
+              <Bell className="w-4 h-4 mr-2 text-indigo-500" />
+              <span className="text-indigo-500">{"What's New"}</span>
+            </Button>
             {isAuthenticated ? (
               <span className="text-green-200">Signed In</span>
             ) : (
-              <Button variant="outline" onClick={() => setShowAuthModal(true)}>Sign In</Button>
+              // <Button variant="outline" onClick={() => setShowAuthModal(true)}>Sign In</Button>
+              <Button variant="secondary" className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                onClick={() => setShowAuthModal(true)}>
+                <span className="h-4"></span>
+                <span className="text-indigo-500">{"Sign In"}</span>
+              </Button>
             )}
           </div>
         </nav>
@@ -204,6 +216,7 @@ export default function Layout() {
         </div>
       </footer>
 
+      <ReleaseNotesDialog open={showReleaseNotes} onOpenChange={setShowReleaseNotes} />
       <AuthDialog open={showAuthModal} onOpenChange={setShowAuthModal} handleAuth={handleAuth} />
     </div>
   )
