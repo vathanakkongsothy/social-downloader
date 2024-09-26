@@ -1,7 +1,7 @@
 "use client"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -13,6 +13,27 @@ type AuthDialogProps = {
 }
 
 const AuthDialog = ({ open, onOpenChange, handleAuth }: AuthDialogProps) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = async (e: React.FormEvent, type: 'signUp' | 'signIn') => {
+        e.preventDefault();
+        const action = type;
+        const response = await fetch("/api/auth", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password, action }),
+        });
+
+        if (response.ok) {
+            handleAuth();
+        } else {
+            console.error('Authentication failed');
+        }
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="bg-slate-50">
@@ -22,22 +43,22 @@ const AuthDialog = ({ open, onOpenChange, handleAuth }: AuthDialogProps) => {
                         You need to be signed in to download videos.
                     </DialogDescription>
                 </DialogHeader>
-                <Tabs defaultValue="signup" className="w-full">
+                <Tabs defaultValue="signUp" className="w-full">
                     <TabsList className="grid w-full grid-cols-2 bg-slate-200">
-                        <TabsTrigger className="bg-slate-200 data-[state=active]:bg-white" value="signup">Sign Up</TabsTrigger>
-                        <TabsTrigger className="bg-slate-200 data-[state=active]:bg-white" value="signin">Sign In</TabsTrigger>
+                        <TabsTrigger className="bg-slate-200 data-[state=active]:bg-white" value="signUp">Sign Up</TabsTrigger>
+                        <TabsTrigger className="bg-slate-200 data-[state=active]:bg-white" value="signIn">Sign In</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="signup">
-                        <form onSubmit={(e) => { e.preventDefault(); handleAuth(); }} className="space-y-4">
-                            <Input type="email" placeholder="Email" required />
-                            <Input type="password" placeholder="Password" required />
+                    <TabsContent value="signUp">
+                        <form onSubmit={(e) => handleSubmit(e, 'signUp')} className="space-y-4">
+                            <Input type="email" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
+                            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
                             <Button type="submit" className="w-full">Sign Up</Button>
                         </form>
                     </TabsContent>
-                    <TabsContent value="signin">
+                    <TabsContent value="signIn">
                         <form onSubmit={(e) => { e.preventDefault(); handleAuth(); }} className="space-y-4">
-                            <Input type="email" placeholder="Email" required />
-                            <Input type="password" placeholder="Password" required />
+                            <Input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+                            <Input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
                             <Button type="submit" className="w-full">Sign In</Button>
                         </form>
                     </TabsContent>

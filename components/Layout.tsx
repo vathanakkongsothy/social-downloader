@@ -30,10 +30,10 @@ export default function Layout() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!isAuthenticated) {
-    //   setShowAuthModal(true);
-    //   return;
-    // }
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+      return;
+    }
     mutation.mutate({ url, platform });
   };
 
