@@ -61,11 +61,11 @@ export default function Layout() {
           <div className="space-x-4">
             <a href="#features" className="text-white hover:text-gray-200 transition-colors">Features</a>
             <a href="#download" className="text-white hover:text-gray-200 transition-colors">Download</a>
-            {/* <Button variant="secondary" className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+            <Button variant="secondary" className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
               onClick={() => setShowReleaseNotes(true)}>
               <Bell className="w-4 h-4 mr-2 text-indigo-500" />
               <span className="text-indigo-500">{"What's New"}</span>
-            </Button> */}
+            </Button>
             {isAuthenticated ? (
               <span className="text-green-200">Signed In</span>
             ) : (
