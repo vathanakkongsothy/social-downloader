@@ -1,6 +1,7 @@
 import { downloadTiktok, filterVideo, Media } from '@/lib/tiktok';
 import { NextResponse } from 'next/server';
 
+export const runtime = "edge";
 async function tiktokDownloader(url: string): Promise<Media> {
     const result = await downloadTiktok(url);
     console.log(result);
