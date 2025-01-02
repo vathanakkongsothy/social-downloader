@@ -1,5 +1,7 @@
 import { downloadTiktok, filterVideo, Media } from '@/lib/tiktok';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 
 async function tiktokDownloader(url: string): Promise<Media> {
     const result = await downloadTiktok(url);
@@ -15,10 +17,9 @@ async function tiktokDownloader(url: string): Promise<Media> {
     return videos[0];
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
-        const { searchParams } = new URL(request.url);
-        const videoUrl = searchParams.get('videoUrl');
+        const videoUrl = request.nextUrl.searchParams.get('videoUrl');
 
         if (!videoUrl) {
             return new NextResponse('Please provide a video URL', {
